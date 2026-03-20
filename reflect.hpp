@@ -188,10 +188,13 @@ namespace reflect {
 		}
 
 	private:
-		static Class* get_ptr(Class* p) { return p; }
+		static Class* get_ptr(Class* p) { return p;  }
 		static Class* get_ptr(Class& r) { return &r; }
-		static const Class* get_ptr(const Class* p) { return p; }
+		static const Class* get_ptr(const Class* p) { return p;  }
 		static const Class* get_ptr(const Class& r) { return &r; }
+
+		static Class* get_ptr(Class&& r) = delete;
+		static const Class* get_ptr(const Class&& r) = delete;
 
 		// ±àÒëÆÚ²éÕÒË÷Òı
 		template<detail::FixedString Name>
@@ -459,19 +462,7 @@ namespace reflect {
 				throw std::runtime_error("Invalid variant index");
 			}
 
-			auto read_variant = [this, index]<size_t... Is>(std::index_sequence<Is...>) {
-				((index == Is ? (var = read_variant_alt<Args...>(std::integral_constant<size_t, Is>{}), 0) : 0), ...);
-			};
-
-			read_variant(std::index_sequence_for<Args...>{});
-		}
-
-		template<typename... Args, size_t I>
-		auto read_variant_alt(std::integral_constant<size_t, I>) {
-			using Type = std::variant_alternative_t<I, std::variant<Args...>>;
-			Type val;
-			read(val);
-			return val;
+			read_variant_impl<0, Args...>(var, index);
 		}
 
 		template<typename T>
@@ -504,6 +495,21 @@ namespace reflect {
 		}
 
 	private:
+		template<size_t I, typename... Args>
+		void read_variant_impl(std::variant<Args...>& var, uint32_t target) {
+			if constexpr (I < sizeof...(Args)) {
+				if (target == I) {
+					using Type = std::variant_alternative_t<I, std::variant<Args...>>;
+					Type val;
+					read(val);
+					var = std::move(val);
+				}
+				else {
+					read_variant_impl<I + 1, Args...>(var, target);
+				}
+			}
+		}
+
 		template<typename T, size_t... Is>
 		void read_members(T& obj, std::index_sequence<Is...>) {
 			constexpr auto member_ptrs = detail::members<T>();
