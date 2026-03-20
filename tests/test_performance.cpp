@@ -8,7 +8,7 @@
 #include <vector>
 #include <random>
 #include <iomanip>
-#include "reflect.hpp"
+#include "../reflect/reflect.hpp"
 #include "test.h"
 
 using namespace reflect;

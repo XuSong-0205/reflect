@@ -132,12 +132,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="test_performance.cpp" />
-    <ClCompile Include="test_reflection.cpp" />
+    <ClCompile Include="tests\test_performance.cpp" />
+    <ClCompile Include="tests\test_reflection.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="reflect.hpp" />
-    <ClInclude Include="test.h" />
+    <ClInclude Include="tests\test.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

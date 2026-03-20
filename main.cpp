@@ -1,6 +1,6 @@
 ﻿#include <iostream>
-#include "reflect.hpp"
-#include "test.h"
+#include "reflect/reflect.hpp"
+#include "tests/test.h"
 
 
 
