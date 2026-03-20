@@ -136,7 +136,7 @@
     <ClCompile Include="tests\test_reflection.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="reflect.hpp" />
+    <ClInclude Include="reflect\reflect.hpp" />
     <ClInclude Include="tests\test.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

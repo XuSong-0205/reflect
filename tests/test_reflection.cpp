@@ -266,6 +266,31 @@ void test_call_typed()
     std::cout << "[ok] Call Typed works" << std::endl;
 }
 
+struct TestC {
+    int a = 1;
+    double b = 3.14;
+    std::string c = "qiong";
+
+    void foo_a() const { std::cout << "TestC::foo_a\n"; }
+	void foo_b() const { std::cout << "TestC::foo_b\n"; }
+    void foo_c() const { std::cout << "TestC::foo_c\n"; }
+};
+
+REFLECT_VARS(TestC, &TestC::a, &TestC::b, &TestC::c);
+REFLECT_FUNCS(TestC, &TestC::foo_a, &TestC::foo_b, &TestC::foo_c);
+
+void test_foreach_struct_members() {
+	std::cout << "\n=== Test 9: Foreach Struct Members ===" << std::endl;
+
+    TestC c;
+    constexpr auto func_names = reflect::detail::function_names<TestC>();
+    for (auto name : func_names) {
+        Reflection<TestC>::call(c, name);
+    }
+
+	std::cout << "[ok] Foreach Struct Members works" << std::endl;
+}
+
 
 int test_reflection_main() {
     std::cout << "========================================" << std::endl;
@@ -281,6 +306,7 @@ int test_reflection_main() {
         test_error_handling();
         test_call_virtual();
         test_call_typed();
+        test_foreach_struct_members();
 
         std::cout << "\n========================================" << std::endl;
         std::cout << "All tests passed! [ok]" << std::endl;

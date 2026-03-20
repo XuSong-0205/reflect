@@ -26,10 +26,10 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="reflect.hpp">
+    <ClInclude Include="tests\test.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="tests\test.h">
+    <ClInclude Include="reflect\reflect.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
